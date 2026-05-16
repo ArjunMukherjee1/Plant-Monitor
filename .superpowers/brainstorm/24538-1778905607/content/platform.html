@@ -1,0 +1,41 @@
+<h2>Where should the app run?</h2>
+<p class="subtitle">This shapes the entire tech stack and how you'll access sensor data</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Web App (browser-based)</h3>
+      <p>Runs in any browser on any device — phone, tablet, laptop. Hosted locally (e.g. on the same machine as Home Assistant) or on the internet. Best for flexibility and easy sharing.</p>
+      <ul style="margin-top:8px;padding-left:18px;font-size:0.9em;opacity:0.85">
+        <li>Works on any device with a browser</li>
+        <li>Easy to update — just refresh</li>
+        <li>Can be embedded in Home Assistant dashboard</li>
+      </ul>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Mobile App (iOS / Android)</h3>
+      <p>A native app on your phone. Great for push notifications (e.g. "soil is too dry!") and home screen access. More work to build and distribute.</p>
+      <ul style="margin-top:8px;padding-left:18px;font-size:0.9em;opacity:0.85">
+        <li>Push notifications for alerts</li>
+        <li>Home screen icon</li>
+        <li>Requires App Store / TestFlight distribution</li>
+      </ul>
+    </div>
+  </div>
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Desktop App (Mac / Windows)</h3>
+      <p>A native desktop app, e.g. built with Electron or Tauri. Lives in your taskbar or dock. Good for always-on monitoring on a dedicated machine.</p>
+      <ul style="margin-top:8px;padding-left:18px;font-size:0.9em;opacity:0.85">
+        <li>Runs in background, system tray</li>
+        <li>Good for a dedicated monitor/screen</li>
+        <li>Less portable than a web app</li>
+      </ul>
+    </div>
+  </div>
+</div>

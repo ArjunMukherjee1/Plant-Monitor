@@ -1,0 +1,110 @@
+<h2>Dashboard Layout</h2>
+<p class="subtitle">How should the main screen be organized?</p>
+
+<div class="split">
+  <div class="mockup">
+    <div class="mockup-header">Option A — Card Stack</div>
+    <div class="mockup-body" style="background:#0f1117;padding:12px;border-radius:8px;font-family:sans-serif;color:#fff;min-height:420px">
+      <!-- Status bar -->
+      <div style="display:flex;justify-content:space-between;font-size:10px;opacity:0.5;margin-bottom:12px">
+        <span>9:41 AM</span><span>●●● WiFi 🔋</span>
+      </div>
+      <!-- Title -->
+      <div style="font-size:15px;font-weight:700;margin-bottom:4px">My Plant</div>
+      <div style="font-size:10px;opacity:0.5;margin-bottom:14px">Last updated 2 min ago</div>
+
+      <!-- Health score card -->
+      <div style="background:#1a2035;border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:14px">
+        <div style="width:52px;height:52px;border-radius:50%;background:conic-gradient(#4ade80 0% 72%, #1e293b 72%);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">72</div>
+        <div>
+          <div style="font-size:12px;opacity:0.5;text-transform:uppercase;letter-spacing:1px">Health Score</div>
+          <div style="font-size:15px;font-weight:600;color:#4ade80">Good</div>
+          <div style="font-size:10px;opacity:0.5">Soil drying — water in ~8h</div>
+        </div>
+      </div>
+
+      <!-- Sensor cards row -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+        <div style="background:#1a2035;border-radius:12px;padding:12px">
+          <div style="font-size:10px;opacity:0.5;text-transform:uppercase;letter-spacing:1px">Moisture</div>
+          <div style="font-size:22px;font-weight:700;color:#60a5fa;margin:4px 0">58%</div>
+          <div style="font-size:10px;opacity:0.4">▼ 2% past hour</div>
+        </div>
+        <div style="background:#1a2035;border-radius:12px;padding:12px">
+          <div style="font-size:10px;opacity:0.5;text-transform:uppercase;letter-spacing:1px">Soil Temp</div>
+          <div style="font-size:22px;font-weight:700;color:#fb923c;margin:4px 0">72°F</div>
+          <div style="font-size:10px;opacity:0.4">Stable</div>
+        </div>
+      </div>
+
+      <!-- Mini chart -->
+      <div style="background:#1a2035;border-radius:12px;padding:12px">
+        <div style="font-size:10px;opacity:0.5;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Moisture — Last 24h</div>
+        <svg viewBox="0 0 200 50" style="width:100%;height:40px">
+          <polyline points="0,30 30,28 60,25 90,35 120,40 150,32 200,22" fill="none" stroke="#60a5fa" stroke-width="2"/>
+          <polyline points="0,30 30,28 60,25 90,35 120,40 150,32 200,22 200,50 0,50" fill="#60a5fa22" stroke="none"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="mockup">
+    <div class="mockup-header">Option B — Big Numbers Focus</div>
+    <div class="mockup-body" style="background:#0f1117;padding:12px;border-radius:8px;font-family:sans-serif;color:#fff;min-height:420px">
+      <!-- Status bar -->
+      <div style="display:flex;justify-content:space-between;font-size:10px;opacity:0.5;margin-bottom:12px">
+        <span>9:41 AM</span><span>●●● WiFi 🔋</span>
+      </div>
+
+      <!-- Large health ring -->
+      <div style="text-align:center;margin-bottom:16px">
+        <div style="font-size:12px;opacity:0.4;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Plant Health</div>
+        <svg viewBox="0 0 100 100" width="100" height="100" style="display:block;margin:0 auto">
+          <circle cx="50" cy="50" r="40" fill="none" stroke="#1e293b" stroke-width="8"/>
+          <circle cx="50" cy="50" r="40" fill="none" stroke="#4ade80" stroke-width="8" stroke-dasharray="180 251" stroke-linecap="round" transform="rotate(-90 50 50)"/>
+          <text x="50" y="48" text-anchor="middle" fill="#fff" font-size="20" font-weight="bold">72</text>
+          <text x="50" y="62" text-anchor="middle" fill="#4ade80" font-size="9">GOOD</text>
+        </svg>
+        <div style="font-size:11px;opacity:0.5;margin-top:4px">Water in ~8 hours</div>
+      </div>
+
+      <!-- Big readings stacked -->
+      <div style="border-top:1px solid #ffffff11;padding-top:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #ffffff0a">
+          <div>
+            <div style="font-size:10px;opacity:0.4;text-transform:uppercase;letter-spacing:1px">Moisture</div>
+            <div style="font-size:10px;opacity:0.3;margin-top:2px">▼ Drying slowly</div>
+          </div>
+          <div style="font-size:32px;font-weight:800;color:#60a5fa">58%</div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0">
+          <div>
+            <div style="font-size:10px;opacity:0.4;text-transform:uppercase;letter-spacing:1px">Soil Temp</div>
+            <div style="font-size:10px;opacity:0.3;margin-top:2px">● Stable</div>
+          </div>
+          <div style="font-size:32px;font-weight:800;color:#fb923c">72°F</div>
+        </div>
+      </div>
+
+      <!-- Nav tabs -->
+      <div style="display:flex;gap:6px;margin-top:14px">
+        <div style="flex:1;background:#60a5fa22;border:1px solid #60a5fa44;border-radius:8px;padding:6px;text-align:center;font-size:10px;color:#60a5fa">Dashboard</div>
+        <div style="flex:1;background:#ffffff0a;border-radius:8px;padding:6px;text-align:center;font-size:10px;opacity:0.4">Charts</div>
+        <div style="flex:1;background:#ffffff0a;border-radius:8px;padding:6px;text-align:center;font-size:10px;opacity:0.4">Settings</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p style="margin-top:16px;font-size:0.85em;opacity:0.6">Click a card to select it, or just reply in the terminal</p>
+
+<div class="options" style="margin-top:12px">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content"><h3>Card Stack</h3><p>Health score + sensor tiles + mini chart all on one screen. More info at a glance.</p></div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content"><h3>Big Numbers</h3><p>Large health ring + bold readings. Cleaner, easier to read from across the room.</p></div>
+  </div>
+</div>

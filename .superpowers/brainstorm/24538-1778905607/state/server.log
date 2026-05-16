@@ -1,0 +1,7 @@
+{"type":"server-started","port":55919,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:55919","screen_dir":"/Users/arjun/FAN/.superpowers/brainstorm/24538-1778905607/content","state_dir":"/Users/arjun/FAN/.superpowers/brainstorm/24538-1778905607/state"}
+{"type":"screen-added","file":"/Users/arjun/FAN/.superpowers/brainstorm/24538-1778905607/content/platform.html"}
+{"source":"user-event","type":"click","text":"B\n    \n      Mobile App (iOS / Android)\n      A native app on your phone. Great for push notifications (e.g. \"soil is too dry!\") and home screen access. More work to build and distribute.\n      \n        Push notifications for alerts\n        Home screen icon\n        Requires App Store / TestFlight distribution","choice":"b","id":null,"timestamp":1778905752901}
+{"type":"screen-added","file":"/Users/arjun/FAN/.superpowers/brainstorm/24538-1778905607/content/waiting.html"}
+{"type":"screen-added","file":"/Users/arjun/FAN/.superpowers/brainstorm/24538-1778905607/content/approaches.html"}
+{"type":"screen-added","file":"/Users/arjun/FAN/.superpowers/brainstorm/24538-1778905607/content/dashboard-layout.html"}
+{"type":"server-stopped","reason":"idle timeout"}

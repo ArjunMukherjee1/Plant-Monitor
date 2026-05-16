@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "FAN",
+    "slug": "fan-plant-monitor",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "fan",
+    "userInterfaceStyle": "dark",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.fan.plantmonitor"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0D1117"
+      },
+      "package": "com.fan.plantmonitor"
+    },
+    "plugins": [
+      "expo-secure-store",
+      [
+        "expo-notifications",
+        {
+          "color": "#4ADE80"
+        }
+      ]
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+<h2>3 Architecture Approaches</h2>
+<p class="subtitle">Pick the one that fits your comfort level and how much complexity you want to maintain</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Flutter + Direct HA API <span style="font-size:0.75em;opacity:0.6;font-weight:normal">(simplest)</span></h3>
+      <p>The app talks directly to Home Assistant's built-in REST &amp; WebSocket API. All charts and predictions are computed on-device. No extra server to run.</p>
+      <div class="pros-cons" style="margin-top:10px">
+        <div class="pros"><h4>Pros</h4><ul><li>Nothing to deploy beyond the app</li><li>Uses HA's existing history DB</li><li>Real-time updates via WebSocket</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Push notifications require the app to be open (or a separate HA automation)</li><li>Predictions limited to what fits on-device</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>React Native + Direct HA API <span style="font-size:0.75em;opacity:0.6;font-weight:normal">(JS ecosystem)</span></h3>
+      <p>Same direct-to-HA approach, but built with React Native + TypeScript. Better choice if you already know JavaScript. Larger ecosystem of charting libraries.</p>
+      <div class="pros-cons" style="margin-top:10px">
+        <div class="pros"><h4>Pros</h4><ul><li>JS/TS — very common skill set</li><li>Rich charting libs (Victory, Recharts)</li><li>Can share code with a future web version</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Same push notification limitation as A</li><li>React Native can be fiddly on native modules</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Flutter + Lightweight Backend <span style="font-size:0.75em;opacity:0.6;font-weight:normal">(recommended)</span></h3>
+      <p>A small Python/Node backend runs alongside Home Assistant (same machine or a HA add-on). It polls HA, stores richer history, runs predictions, and sends push notifications via FCM. The Flutter app talks to this backend.</p>
+      <div class="pros-cons" style="margin-top:10px">
+        <div class="pros"><h4>Pros</h4><ul><li>Reliable push notifications (even when app is closed)</li><li>Richer time-series history &amp; predictions</li><li>Ready for irrigation control later</li><li>Flutter = beautiful charts &amp; animations</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>One more service to run (but lightweight)</li><li>Slightly more setup upfront</li></ul></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p style="margin-top:20px;font-size:0.85em;opacity:0.7">⭐ My recommendation: <strong>C</strong> — push notifications while the app is closed is nearly essential for a plant monitoring app, and the backend slots in cleanly for future irrigation control.</p>
