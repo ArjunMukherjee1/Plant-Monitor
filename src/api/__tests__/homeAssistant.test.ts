@@ -2,10 +2,11 @@ import { createHAClient } from '../homeAssistant';
 
 const config = { baseUrl: 'http://homeassistant.local:8123', token: 'test-token' };
 
-global.fetch = jest.fn();
+const g = globalThis as unknown as { fetch: jest.Mock };
+g.fetch = jest.fn();
 
 const mockFetch = (body: unknown, ok = true) => {
-  (global.fetch as jest.Mock).mockResolvedValueOnce({
+  g.fetch.mockResolvedValueOnce({
     ok,
     status: ok ? 200 : 401,
     json: async () => body,
@@ -35,7 +36,7 @@ describe('createHAClient.getState', () => {
   it('sends Authorization header', async () => {
     mockFetch({ entity_id: 'x', state: '0', attributes: {}, last_updated: new Date().toISOString() });
     await createHAClient(config).getState('x');
-    const call = (global.fetch as jest.Mock).mock.calls[0];
+    const call = g.fetch.mock.calls[0];
     expect(call[1].headers.Authorization).toBe('Bearer test-token');
   });
 
