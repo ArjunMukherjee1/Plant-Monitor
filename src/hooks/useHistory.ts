@@ -12,6 +12,7 @@ export function useHistory(settings: AppSettings, entityId: string, hoursBack: n
       return client.getHistory(entityId, hoursBack);
     },
     enabled,
-    staleTime: 5 * 60_000,
+    staleTime: 30_000,
+    refetchInterval: 60_000,
   });
 }

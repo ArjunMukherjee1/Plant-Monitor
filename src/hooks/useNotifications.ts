@@ -30,8 +30,12 @@ export function useNotifications() {
       setPermissionGranted(status === 'granted');
       if (status !== 'granted') return;
 
-      const token = await Notifications.getExpoPushTokenAsync();
-      setExpoPushToken(token.data);
+      try {
+        const token = await Notifications.getExpoPushTokenAsync();
+        setExpoPushToken(token.data);
+      } catch {
+        // Expo Go doesn't support push tokens without an EAS project — ignore
+      }
     }
     register();
   }, []);

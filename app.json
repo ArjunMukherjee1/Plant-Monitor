@@ -8,13 +8,19 @@
     "userInterfaceStyle": "dark",
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.fan.plantmonitor"
+      "bundleIdentifier": "com.fan.plantmonitor",
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsLocalNetworking": true
+        }
+      }
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#0D1117"
       },
-      "package": "com.fan.plantmonitor"
+      "package": "com.fan.plantmonitor",
+      "usesCleartextTraffic": true
     },
     "plugins": [
       "expo-secure-store",

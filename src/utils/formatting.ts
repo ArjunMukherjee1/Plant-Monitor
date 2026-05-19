@@ -1,5 +1,5 @@
 export function formatMoisture(value: number): string {
-  return `${Math.round(value)}%`;
+  return `${value.toFixed(1)}%`;
 }
 
 export function formatTemp(value: number): string {

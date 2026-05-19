@@ -13,8 +13,15 @@ interface HAStateResponse {
 }
 
 interface HAHistoryEntry {
-  state: string;
-  last_updated: string;
+  state: string | null;
+  last_changed: string;
+  last_updated?: string;
+}
+
+function fetchWithTimeout(url: string, options: RequestInit, ms = 10_000): Promise<Response> {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), ms);
+  return fetch(url, { ...options, signal: controller.signal }).finally(() => clearTimeout(id));
 }
 
 export function createHAClient(config: HAClientConfig) {
@@ -24,7 +31,7 @@ export function createHAClient(config: HAClientConfig) {
   };
 
   async function getState(entityId: string): Promise<SensorState> {
-    const res = await fetch(`${config.baseUrl}/api/states/${entityId}`, { headers });
+    const res = await fetchWithTimeout(`${config.baseUrl}/api/states/${entityId}`, { headers });
     if (!res.ok) throw new Error(`HA API error: ${res.status}`);
     const data: HAStateResponse = await res.json();
     const value = parseFloat(data.state);
@@ -40,12 +47,13 @@ export function createHAClient(config: HAClientConfig) {
   async function getHistory(entityId: string, hoursBack: number): Promise<HistoryPoint[]> {
     const start = new Date(Date.now() - hoursBack * 3_600_000).toISOString();
     const url = `${config.baseUrl}/api/history/period/${start}?filter_entity_id=${entityId}&minimal_response=true`;
-    const res = await fetch(url, { headers });
+    const res = await fetchWithTimeout(url, { headers });
     if (!res.ok) throw new Error(`HA history error: ${res.status}`);
     const data: HAHistoryEntry[][] = await res.json();
     const entries = data[0] ?? [];
     return entries
-      .map((e) => ({ timestamp: new Date(e.last_updated), value: parseFloat(e.state) }))
+      .filter((e) => e.state !== null && e.state !== 'unavailable' && e.state !== 'unknown')
+      .map((e) => ({ timestamp: new Date(e.last_changed ?? e.last_updated!), value: parseFloat(e.state!) }))
       .filter((p) => !isNaN(p.value));
   }
 
@@ -54,7 +62,7 @@ export function createHAClient(config: HAClientConfig) {
     service: string,
     serviceData: Record<string, unknown>
   ): Promise<void> {
-    const res = await fetch(`${config.baseUrl}/api/services/${domain}/${service}`, {
+    const res = await fetchWithTimeout(`${config.baseUrl}/api/services/${domain}/${service}`, {
       method: 'POST',
       headers,
       body: JSON.stringify(serviceData),

@@ -23,6 +23,8 @@ export function useSensorData(settings: AppSettings) {
       return { moisture, temperature };
     },
     enabled,
+    retry: 1,
+    retryDelay: 2_000,
     refetchInterval: 30_000,
     staleTime: 25_000,
   });

@@ -7,9 +7,9 @@ import {
 } from '../formatting';
 
 describe('formatMoisture', () => {
-  it('rounds and appends %', () => {
-    expect(formatMoisture(58.7)).toBe('59%');
-    expect(formatMoisture(40)).toBe('40%');
+  it('formats to one decimal place and appends %', () => {
+    expect(formatMoisture(58.7)).toBe('58.7%');
+    expect(formatMoisture(40)).toBe('40.0%');
   });
 });
 

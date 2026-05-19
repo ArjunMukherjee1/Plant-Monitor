@@ -58,12 +58,16 @@ export function DashboardScreen({ settings }: Props) {
   }
 
   if (error || !sensorData) {
+    const message = error?.name === 'AbortError'
+      ? 'Request timed out. Is your phone on the same WiFi as Home Assistant?'
+      : (error?.message ?? 'Could not reach Home Assistant.');
     return (
       <View style={styles.center}>
         <Text style={styles.emptyIcon}>⚠️</Text>
         <Text style={styles.emptyTitle}>Connection error</Text>
-        <Text style={styles.emptySubtitle}>
-          {error?.message ?? 'Could not reach Home Assistant.'}
+        <Text style={styles.emptySubtitle}>{message}</Text>
+        <Text style={[styles.emptySubtitle, { marginTop: 12, fontSize: 11, opacity: 0.5 }]}>
+          {settings.haUrl}
         </Text>
       </View>
     );
