@@ -3,13 +3,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { colors } from './src/constants/theme';
+import { PlantPicker } from './src/components/PlantPicker';
+import { colors, fontSize, spacing } from './src/constants/theme';
+import { Plant } from './src/data/plants';
 import { useNotifications } from './src/hooks/useNotifications';
 import { useSettings } from './src/hooks/useSettings';
 import { ChartsScreen } from './src/screens/ChartsScreen';
 import { DashboardScreen } from './src/screens/DashboardScreen';
+import { PlantScreen } from './src/screens/PlantScreen';
 import { SettingsScreen } from './src/screens/SettingsScreen';
 
 const Tab = createBottomTabNavigator();
@@ -19,6 +22,7 @@ function TabIcon({ name, focused }: { name: string; focused: boolean }) {
   const icons: Record<string, string> = {
     Dashboard: '🌿',
     Charts: '📈',
+    Plant: '🌱',
     Settings: '⚙️',
   };
   return <Text style={{ fontSize: 20, opacity: focused ? 1 : 0.4 }}>{icons[name]}</Text>;
@@ -29,6 +33,30 @@ function AppInner() {
   const { expoPushToken } = useNotifications();
 
   if (!loaded) return null;
+
+  // Force plant selection before anything else
+  if (!settings.plantTypeId) {
+    const handlePlantSelect = (plant: Plant) => {
+      saveSettings({
+        plantTypeId: plant.id,
+        optimalMoistureMin: plant.optimalMoistureMin,
+        optimalMoistureMax: plant.optimalMoistureMax,
+        optimalTempMin: plant.optimalTempMin,
+        optimalTempMax: plant.optimalTempMax,
+      });
+    };
+    return (
+      <>
+        <StatusBar style="light" />
+        <View style={onboardingStyles.bg}>
+          <Text style={onboardingStyles.emoji}>🌱</Text>
+          <Text style={onboardingStyles.title}>What are you growing?</Text>
+          <Text style={onboardingStyles.subtitle}>Pick your plant to get personalised recommendations</Text>
+        </View>
+        <PlantPicker visible dismissable={false} onSelect={handlePlantSelect} onClose={() => {}} />
+      </>
+    );
+  }
 
   return (
     <>
@@ -53,6 +81,9 @@ function AppInner() {
         <Tab.Screen name="Charts">
           {() => <ChartsScreen settings={settings} />}
         </Tab.Screen>
+        <Tab.Screen name="Plant">
+          {() => <PlantScreen settings={settings} onSave={saveSettings} />}
+        </Tab.Screen>
         <Tab.Screen name="Settings">
           {() => (
             <SettingsScreen
@@ -66,6 +97,33 @@ function AppInner() {
     </>
   );
 }
+
+const onboardingStyles = StyleSheet.create({
+  bg: {
+    flex: 1,
+    backgroundColor: colors.bg,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: spacing.xl,
+  },
+  emoji: {
+    fontSize: 64,
+    marginBottom: spacing.lg,
+  },
+  title: {
+    fontSize: fontSize.xxl,
+    color: colors.text,
+    fontWeight: '700',
+    textAlign: 'center',
+    marginBottom: spacing.sm,
+  },
+  subtitle: {
+    fontSize: fontSize.md,
+    color: colors.textMuted,
+    textAlign: 'center',
+    lineHeight: 22,
+  },
+});
 
 export default function App() {
   return (

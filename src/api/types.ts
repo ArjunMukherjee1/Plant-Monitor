@@ -40,4 +40,7 @@ export interface AppSettings {
   optimalTempMin: number;
   optimalTempMax: number;
   notificationThreshold: number;
+  plantTypeId: string;       // plant id from database, '' if none
+  plantingDate: string;      // ISO date string, '' if not set
+  currentStageIndex: number; // index into plant.growthStages
 }

@@ -10,7 +10,9 @@ import {
   View,
 } from 'react-native';
 import { AppSettings } from '../api/types';
+import { PlantPicker } from '../components/PlantPicker';
 import { colors, fontSize, radius, spacing } from '../constants/theme';
+import { getPlantById, Plant } from '../data/plants';
 
 interface Props {
   settings: AppSettings;
@@ -21,9 +23,26 @@ interface Props {
 export function SettingsScreen({ settings, onSave, expoPushToken }: Props) {
   const [form, setForm] = useState<AppSettings>(settings);
   const [saved, setSaved] = useState(false);
+  const [plantPickerVisible, setPlantPickerVisible] = useState(false);
+
+  const currentPlant: Plant | undefined = form.plantTypeId
+    ? getPlantById(form.plantTypeId)
+    : undefined;
 
   const update = (key: keyof AppSettings, val: string | number) =>
     setForm((prev) => ({ ...prev, [key]: val }));
+
+  function handlePlantSelected(plant: Plant) {
+    setPlantPickerVisible(false);
+    setForm((prev) => ({
+      ...prev,
+      plantTypeId: plant.id,
+      optimalMoistureMin: plant.optimalMoistureMin,
+      optimalMoistureMax: plant.optimalMoistureMax,
+      optimalTempMin: plant.optimalTempMin,
+      optimalTempMax: plant.optimalTempMax,
+    }));
+  }
 
   const handleSave = async () => {
     await onSave(form);
@@ -89,6 +108,21 @@ export function SettingsScreen({ settings, onSave, expoPushToken }: Props) {
             autoCorrect={false}
           />
         </Field>
+
+        <Text style={styles.section}>Plant Type</Text>
+
+        <TouchableOpacity
+          style={styles.plantTypeRow}
+          onPress={() => setPlantPickerVisible(true)}
+        >
+          <View style={styles.plantTypeLeft}>
+            <Text style={styles.plantTypeLabel}>Plant type</Text>
+            <Text style={styles.plantTypeValue}>
+              {currentPlant ? currentPlant.name : 'Not set'}
+            </Text>
+          </View>
+          <Text style={styles.plantTypeArrow}>›</Text>
+        </TouchableOpacity>
 
         <Text style={styles.section}>Optimal Ranges</Text>
 
@@ -162,6 +196,12 @@ export function SettingsScreen({ settings, onSave, expoPushToken }: Props) {
           <Text style={styles.saveBtnText}>{saved ? 'Saved ✓' : 'Save Settings'}</Text>
         </TouchableOpacity>
       </ScrollView>
+
+      <PlantPicker
+        visible={plantPickerVisible}
+        onSelect={handlePlantSelected}
+        onClose={() => setPlantPickerVisible(false)}
+      />
     </KeyboardAvoidingView>
   );
 }
@@ -262,5 +302,34 @@ const styles = StyleSheet.create({
     color: '#0D1117',
     fontSize: fontSize.md,
     fontWeight: '700',
+  },
+  plantTypeRow: {
+    backgroundColor: colors.surface,
+    borderRadius: radius.md,
+    padding: spacing.md,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.border,
+    marginBottom: spacing.md,
+  },
+  plantTypeLeft: {
+    flex: 1,
+  },
+  plantTypeLabel: {
+    fontSize: fontSize.xs,
+    color: colors.textMuted,
+    letterSpacing: 0.8,
+    textTransform: 'uppercase',
+    marginBottom: 2,
+  },
+  plantTypeValue: {
+    fontSize: fontSize.md,
+    color: colors.text,
+  },
+  plantTypeArrow: {
+    fontSize: fontSize.xl,
+    color: colors.textFaint,
+    marginLeft: spacing.sm,
   },
 });

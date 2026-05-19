@@ -17,6 +17,9 @@ export const DEFAULT_SETTINGS: AppSettings = {
   optimalTempMin: 60,
   optimalTempMax: 80,
   notificationThreshold: 25,
+  plantTypeId: '',
+  plantingDate: '',
+  currentStageIndex: 0,
 };
 
 export function useSettings() {

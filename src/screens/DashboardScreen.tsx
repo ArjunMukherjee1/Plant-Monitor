@@ -13,6 +13,7 @@ import { SensorCard } from '../components/SensorCard';
 import { SparkLine } from '../components/SparkLine';
 import { StatusBadge } from '../components/StatusBadge';
 import { colors, fontSize, radius, spacing } from '../constants/theme';
+import { getPlantById } from '../data/plants';
 import { useHistory } from '../hooks/useHistory';
 import { useSensorData } from '../hooks/useSensorData';
 import {
@@ -73,11 +74,23 @@ export function DashboardScreen({ settings }: Props) {
     );
   }
 
+  const selectedPlant = settings.plantTypeId ? getPlantById(settings.plantTypeId) : undefined;
+
   const moisture = sensorData.moisture?.value ?? 0;
   const temp = sensorData.temperature?.value ?? 70;
   const health = getPlantHealth(moisture, temp, settings);
   const prediction = calculateWateringPrediction(moistureHistory, settings.notificationThreshold);
   const lastUpdated = sensorData.moisture?.lastUpdated ?? new Date();
+
+  // Plant-aware watering text
+  const wateringText: string = (() => {
+    if (selectedPlant && moisture < selectedPlant.optimalMoistureMin) {
+      return `${selectedPlant.name} prefers ${selectedPlant.optimalMoistureMin}–${selectedPlant.optimalMoistureMax}% moisture — water soon`;
+    }
+    return formatWateringPrediction(prediction.hoursUntilDry);
+  })();
+
+  const headerTitle = selectedPlant ? `My ${selectedPlant.name}` : 'My Plant';
 
   return (
     <ScrollView
@@ -88,7 +101,7 @@ export function DashboardScreen({ settings }: Props) {
       }
     >
       <View style={styles.header}>
-        <Text style={styles.title}>My Plant</Text>
+        <Text style={styles.title}>{headerTitle}</Text>
         <Text style={styles.subtitle}>Updated {formatLastUpdated(lastUpdated)}</Text>
       </View>
 
@@ -97,9 +110,7 @@ export function DashboardScreen({ settings }: Props) {
         <View style={styles.badgeRow}>
           <StatusBadge status={health.status} />
         </View>
-        <Text style={styles.prediction}>
-          {formatWateringPrediction(prediction.hoursUntilDry)}
-        </Text>
+        <Text style={styles.prediction}>{wateringText}</Text>
       </View>
 
       <View style={styles.cardRow}>
